@@ -1,0 +1,20 @@
+name: Airbnb přehled – 10. den v měsíci
+
+on:
+  schedule:
+    - cron: '30 8 10 * *'   # 10. každý měsíc v 8:30 UTC (po Booking jobu)
+  workflow_dispatch:
+
+jobs:
+  download-and-send:
+    runs-on: self-hosted
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Spust Airbnb skript
+        shell: cmd
+        run: |
+          C:\Users\jakes\AppData\Local\Programs\Python\Python312\python.exe -m pip install requests python-dateutil playwright --quiet
+          C:\Users\jakes\AppData\Local\Programs\Python\Python312\python.exe airbnb_local.py
