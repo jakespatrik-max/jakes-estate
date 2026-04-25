@@ -645,9 +645,9 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 }
 
 .pullquote__sig-name {
-  font-size: 15px;
+  font-size: clamp(22px, 3.2vw, 36px);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: .01em;
   color: var(--accent);
 }
 
