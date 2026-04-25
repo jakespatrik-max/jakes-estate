@@ -1385,7 +1385,7 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   .nav__burger { display: flex; }
   .nav__drawer { padding: 12px 20px 28px; }
 
-  .hero__body { padding: 52px 0 48px; }
+  .hero__body { padding: 52px 20px 48px; }
   .hero__cta-row { flex-direction: column; }
   .hero__cta-row .btn { width: 100%; justify-content: center; }
 
