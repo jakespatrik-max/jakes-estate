@@ -1385,7 +1385,16 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   .nav__burger { display: flex; }
   .nav__drawer { padding: 12px 20px 28px; }
 
-  .hero__body { padding: 52px 20px 48px; }
+  /* Nav vždy bílá na mobilu */
+  .nav {
+    background: rgba(245,242,236,.97);
+    border-bottom-color: var(--border);
+    box-shadow: 0 1px 20px rgba(0,0,0,.08);
+  }
+  .nav__logo { color: var(--text); }
+  .nav__burger span { background: var(--text); }
+
+  .hero__body { padding: 52px 24px 48px; }
   .hero__cta-row { flex-direction: column; }
   .hero__cta-row .btn { width: 100%; justify-content: center; }
 
