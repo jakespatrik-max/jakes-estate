@@ -1,273 +1,237 @@
 """
-Booking.com invoice & statement downloader
-Downloads PDF invoice and reservations statement for the previous month.
-Sends results via Gmail SMTP. Credentials from environment variables.
+Booking.com – GitHub Actions verze.
+Cookies se načítají z env proměnné BOOKING_COOKIES (GitHub Secret).
 """
 
 import asyncio
+import json
 import os
 import smtplib
-import calendar
-from datetime import date, timedelta
-from email.message import EmailMessage
+import requests
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email import encoders
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from pathlib import Path
+from playwright.async_api import async_playwright
 
-from playwright.async_api import async_playwright, Page, BrowserContext
+# ── Konfigurace ───────────────────────────────────────────────────────────────
 
-# ── Configuration ─────────────────────────────────────────────────────────────
+OUTPUT_DIR = Path("faktury")
 
-PROPERTIES = [
+HOTELS = [
     {
-        "hotel_id": "14881473",
+        "id": 14881473,
         "name": "New Modern Art Loft Apartment",
-        "to": "jakes.estate@moneyq.cz",
-        "cc": "jakes.patrik@gmail.com",
+        "to": ["jakes.patrik@gmail.com", "jakes.estate@moneyq.cz"],
     },
     {
-        "hotel_id": "14234560",
+        "id": 14234560,
         "name": "Baroque Grand Apartment XXL",
-        "to": "jakes.residential@moneyq.cz",
-        "cc": "jakes.patrik@gmail.com",
+        "to": ["jakes.patrik@gmail.com", "jakes.residential@moneyq.cz"],
     },
 ]
 
-BOOKING_USERNAME  = os.environ["BOOKING_USERNAME"]
-BOOKING_PASSWORD  = os.environ["BOOKING_PASSWORD"]
-GMAIL_USER        = os.environ["GMAIL_USER"]
-GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
+SMTP_FROM     = os.environ["GMAIL_USER"]
+SMTP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 
-SCREENSHOTS_DIR = Path("screenshots")
-DOWNLOADS_DIR   = Path("downloads")
-
-# Previous month
-_today      = date.today()
-_first_this = _today.replace(day=1)
-_last_prev  = _first_this - timedelta(days=1)
-PREV_MONTH  = _last_prev.month
-PREV_YEAR   = _last_prev.year
-# Period label as shown on Booking.com, e.g. "Mar 1 - Mar 31"
-_month_abbr  = _last_prev.strftime("%b")   # "Mar"
-_last_day    = calendar.monthrange(PREV_YEAR, PREV_MONTH)[1]
-PERIOD_LABEL = f"{_month_abbr} 1 - {_month_abbr} {_last_day}"  # "Mar 1 - Mar 31"
-PREV_MONTH_LABEL = _last_prev.strftime("%B %Y")                  # "March 2026"
+last_month   = datetime.now() - relativedelta(months=1)
+PERIOD       = last_month.strftime("%Y-%m")
+PERIOD_LABEL = last_month.strftime("%B %Y")
 
 BASE = "https://admin.booking.com/hotel/hoteladmin/extranet_ng/manage"
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def _ensure_dirs():
-    SCREENSHOTS_DIR.mkdir(exist_ok=True)
-    DOWNLOADS_DIR.mkdir(exist_ok=True)
+def load_cookies() -> list:
+    raw = os.environ.get("BOOKING_COOKIES", "")
+    if not raw:
+        raise RuntimeError("BOOKING_COOKIES secret neni nastaven!")
+    data = json.loads(raw)
+    return data if isinstance(data, list) else data["cookies"]
 
 
-async def _screenshot(page: Page, name: str):
-    path = SCREENSHOTS_DIR / f"{name}.png"
-    await page.screenshot(path=str(path), full_page=True)
-    print(f"  [screenshot] {path}")
+def send_session_expired_email():
+    msg = MIMEMultipart()
+    msg["From"]    = SMTP_FROM
+    msg["To"]      = "jakes.patrik@gmail.com"
+    msg["Subject"] = "Booking.com – nutná obnova přihlášení"
+    msg.attach(MIMEText(
+        "Dobrý den,\n\n"
+        "Automatický skript pro stahování faktur z Booking.com nemohl pokračovat,\n"
+        "protože přihlašovací session vypršela.\n\n"
+        "Postup obnovy:\n"
+        "1. Spusťte EXPORT_COOKIES.bat na svém počítači\n"
+        "2. Přihlaste se na Booking.com v okně které se otevře\n"
+        "3. Obsah souboru booking_session.json zkopírujte do GitHub Secret BOOKING_COOKIES\n\n"
+        "-- Automatická zpráva",
+        "plain", "utf-8"
+    ))
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+        s.login(SMTP_FROM, SMTP_PASSWORD)
+        s.sendmail(SMTP_FROM, ["jakes.patrik@gmail.com"], msg.as_string())
 
 
-# ── Login ──────────────────────────────────────────────────────────────────────
+def send_email(hotel: dict, invoice: Path | None, statement: Path | None):
+    to_list = hotel["to"]
+    msg = MIMEMultipart()
+    msg["From"] = SMTP_FROM
+    msg["To"]   = ", ".join(to_list)
 
-async def _login(page: Page):
-    print("Logging in...")
-    await page.goto("https://account.booking.com/sign-in", wait_until="domcontentloaded")
-    await page.fill('input[name="username"]', BOOKING_USERNAME)
-    await page.click('button[type="submit"]')
-    await page.wait_for_load_state("networkidle")
-    await page.fill('input[name="password"]', BOOKING_PASSWORD)
-    await page.click('button[type="submit"]')
-    await page.wait_for_load_state("networkidle")
-    print(f"  Logged in: {page.url}")
+    has_docs = invoice or statement
 
-
-# ── Navigate to property ───────────────────────────────────────────────────────
-
-async def _open_property(page: Page, hotel_id: str):
-    """Click on the property in the groups home to set the session context."""
-    await page.goto(
-        "https://admin.booking.com/hotel/hoteladmin/groups/home/index.html",
-        wait_until="networkidle"
-    )
-    # Click on the row with the matching hotel_id
-    link = page.locator(f'text="{hotel_id}"').first
-    await link.wait_for(timeout=10_000)
-    await link.click()
-    await page.wait_for_load_state("networkidle")
-    print(f"  Opened property {hotel_id}: {page.url}")
-
-
-# ── Invoice (PDF) ──────────────────────────────────────────────────────────────
-
-async def _download_invoice(page: Page, hotel_id: str) -> Path | None:
-    """
-    Finance -> Documents and invoices -> find row matching previous month -> download PDF.
-    """
-    print(f"  Navigating to invoices...")
-    await page.goto(f"{BASE}/finance_invoices.html", wait_until="networkidle")
-    await _screenshot(page, f"invoices_{hotel_id}")
-
-    # Find table row matching period label, e.g. "Mar 1 - Mar 31"
-    row = page.locator("tr").filter(has_text=PERIOD_LABEL).first
-    try:
-        await row.wait_for(timeout=8_000)
-    except Exception:
-        await _screenshot(page, f"invoice_not_found_{hotel_id}")
-        print(f"  No invoice found for period: {PERIOD_LABEL}")
-        return None
-
-    # Click PDF download link in that row
-    pdf_link = row.locator('a:has-text("PDF")')
-    dest = DOWNLOADS_DIR / f"invoice_{hotel_id}_{PREV_YEAR}_{PREV_MONTH:02d}.pdf"
-    try:
-        async with page.expect_download(timeout=15_000) as dl_info:
-            await pdf_link.click()
-        dl = await dl_info.value
-        await dl.save_as(str(dest))
-        print(f"  Invoice saved: {dest}")
-        return dest
-    except Exception as exc:
-        await _screenshot(page, f"invoice_download_error_{hotel_id}")
-        print(f"  Invoice download error: {exc}")
-        return None
-
-
-# ── Reservations statement ─────────────────────────────────────────────────────
-
-async def _download_statement(page: Page, hotel_id: str) -> Path | None:
-    """
-    Finance -> Reservations statement -> select period -> Generate statement -> download.
-    """
-    print(f"  Navigating to reservations statement...")
-    await page.goto(
-        f"{BASE}/finance_reservations.html?hotel_id={hotel_id}",
-        wait_until="networkidle"
-    )
-    await _screenshot(page, f"statement_{hotel_id}")
-
-    # Select the correct period from the dropdown
-    period_select = page.locator('select').first
-    try:
-        # Try selecting by visible text matching period label
-        await period_select.select_option(label=PERIOD_LABEL, timeout=5_000)
-        await page.wait_for_load_state("networkidle")
-    except Exception:
-        # Dropdown might already show the right period (latest = previous month)
-        current = await period_select.input_value()
-        print(f"  Period dropdown current value: {current} (wanted: {PERIOD_LABEL})")
-
-    await _screenshot(page, f"statement_period_selected_{hotel_id}")
-
-    # Save page as PDF (equivalent to "Print this page")
-    dest = DOWNLOADS_DIR / f"statement_{hotel_id}_{PREV_YEAR}_{PREV_MONTH:02d}.pdf"
-    try:
-        pdf_bytes = await page.pdf(format="A4", print_background=True)
-        dest.write_bytes(pdf_bytes)
-        print(f"  Statement saved: {dest}")
-        return dest
-    except Exception as exc:
-        await _screenshot(page, f"statement_error_{hotel_id}")
-        print(f"  Statement error: {exc}")
-        return None
-
-
-# ── Email ──────────────────────────────────────────────────────────────────────
-
-def _send_email(prop: dict, invoice: Path | None, statement: Path | None):
-    name = prop["name"]
-    hotel_id = prop["hotel_id"]
-
-    if invoice is None and statement is None:
-        subject = f"Booking.com - chybejici dokumenty - {name} - {PREV_MONTH_LABEL}"
-        body = (
-            f"Dobry den,\n\n"
-            f"Za obdobi {PREV_MONTH_LABEL} nebyly nalezeny zadne dokumenty\n"
-            f"pro ubytovani '{name}' (ID {hotel_id}) na Booking.com.\n\n"
-            f"-- Automaticka zprava"
-        )
-        attachments = []
+    if has_docs:
+        msg["Subject"] = f"Booking.com – {hotel['name']} – {PERIOD_LABEL}"
+        lines = [
+            f"Dobrý den,\n",
+            f"v příloze zasílám dokumenty z Booking.com za {PERIOD_LABEL}",
+            f"pro ubytování: {hotel['name']} (ID {hotel['id']})\n",
+        ]
+        if invoice:
+            lines.append(f"  • {invoice.name} – Commission invoice")
+        if statement:
+            lines.append(f"  • {statement.name} – Reservations statement")
+        lines.append("\n-- Automatická zpráva")
     else:
-        subject = f"Booking.com dokumenty - {name} - {PREV_MONTH_LABEL}"
-        lines = [f"Dobry den,\n"]
-        lines.append(f"Dokumenty za {PREV_MONTH_LABEL} pro '{name}' (ID {hotel_id}):\n")
-        lines.append(f"  - Invoice: {invoice.name if invoice else 'nenalezena'}")
-        lines.append(f"  - Reservations statement: {statement.name if statement else 'nenalezen'}")
-        lines.append(f"\n-- Automaticka zprava")
-        body = "\n".join(lines)
-        attachments = [p for p in (invoice, statement) if p]
+        msg["Subject"] = f"Booking.com – {hotel['name']} – {PERIOD_LABEL} – žádné rezervace"
+        lines = [
+            f"Dobrý den,\n",
+            f"za {PERIOD_LABEL} nebyly nalezeny žádné rezervace ani dokumenty",
+            f"pro ubytování: {hotel['name']} (ID {hotel['id']}).",
+            "\n-- Automatická zpráva",
+        ]
 
-    msg = EmailMessage()
-    msg["Subject"] = subject
-    msg["From"]    = GMAIL_USER
-    msg["To"]      = prop["to"]
-    msg["Cc"]      = prop["cc"]
-    msg.set_content(body)
+    msg.attach(MIMEText("\n".join(lines), "plain", "utf-8"))
 
-    for path in attachments:
-        msg.add_attachment(path.read_bytes(), maintype="application", subtype="pdf",
-                           filename=path.name)
+    for f in [invoice, statement]:
+        if f:
+            part = MIMEBase("application", "pdf")
+            part.set_payload(f.read_bytes())
+            encoders.encode_base64(part)
+            part.add_header("Content-Disposition", "attachment", filename=f.name)
+            msg.attach(part)
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        smtp.send_message(msg)
-
-    print(f"  Email sent to {prop['to']}, cc {prop['cc']}")
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+        s.login(SMTP_FROM, SMTP_PASSWORD)
+        s.sendmail(SMTP_FROM, to_list, msg.as_string())
+    print(f"  Email odeslan -> {', '.join(to_list)}")
 
 
-# ── Main ───────────────────────────────────────────────────────────────────────
+# ── Stahování ─────────────────────────────────────────────────────────────────
+
+async def get_invoice(page, context, hotel_id: int, ses: str) -> Path | None:
+    print(f"  Faktury...")
+    await page.goto(
+        f"{BASE}/finance_invoices.html?hotel_id={hotel_id}&lang=xu&ses={ses}",
+        wait_until="load", timeout=30000
+    )
+    await page.wait_for_timeout(2000)
+
+    invoice_el = await page.query_selector("table tbody tr:first-child td:nth-child(2)")
+    if not invoice_el:
+        print(f"  Faktura nenalezena")
+        return None
+
+    invoice_number = (await invoice_el.inner_text()).strip()
+    invoice_name   = f"1000-{invoice_number}"
+    print(f"  Faktura: {invoice_name}")
+
+    cookies     = await context.cookies()
+    cookie_dict = {c["name"]: c["value"] for c in cookies}
+    pdf_url = (
+        f"https://admin.booking.com/fresa/extranet/finance/invoices/get_document"
+        f"?ses={ses}&hotel_id={hotel_id}&lang=xu&invoice_name={invoice_name}"
+    )
+    response = requests.get(pdf_url, cookies=cookie_dict, timeout=30)
+
+    dest = OUTPUT_DIR / f"faktura_{hotel_id}_{PERIOD}.pdf"
+    if response.status_code == 200 and len(response.content) > 1000:
+        dest.write_bytes(response.content)
+        print(f"  Faktura ulozena: {dest.name}")
+        return dest
+    else:
+        print(f"  Chyba stazeni faktury: HTTP {response.status_code}")
+        return None
+
+
+async def get_statement(page, hotel_id: int, ses: str) -> Path | None:
+    print(f"  Reservations statement...")
+    await page.goto(
+        f"{BASE}/finance_reservations.html?hotel_id={hotel_id}&lang=xu&ses={ses}&period={PERIOD}",
+        wait_until="load", timeout=30000
+    )
+    await page.wait_for_timeout(2000)
+
+    dest = OUTPUT_DIR / f"statement_{hotel_id}_{PERIOD}.pdf"
+    try:
+        pdf_bytes = await page.pdf(
+            format="A4", print_background=True,
+            margin={"top": "20mm", "bottom": "20mm", "left": "15mm", "right": "15mm"}
+        )
+        dest.write_bytes(pdf_bytes)
+        print(f"  Statement ulozen: {dest.name}")
+        return dest
+    except Exception as e:
+        print(f"  Chyba statement: {e}")
+        return None
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
 
 async def main():
-    _ensure_dirs()
-    headless = os.environ.get("PLAYWRIGHT_HEADLESS", "true").lower() != "false"
-    print(f"Starting (headless={headless}, period={PERIOD_LABEL})\n")
+    OUTPUT_DIR.mkdir(exist_ok=True)
+    print(f"Obdobi: {PERIOD_LABEL}\n")
+
+    cookies = load_cookies()
 
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch(headless=headless)
+        browser = await pw.chromium.launch(headless=True)
         context = await browser.new_context(accept_downloads=True)
+        await context.add_cookies(cookies)
         page = await context.new_page()
 
-        # Login once
-        try:
-            await _login(page)
-        except Exception as exc:
-            await _screenshot(page, "login_error")
-            raise RuntimeError(f"Login failed: {exc}") from exc
+        print("Overuji prihlaseni...")
+        await page.goto(
+            "https://admin.booking.com/hotel/hoteladmin/groups/home/index.html",
+            wait_until="load", timeout=30000
+        )
+        await page.wait_for_timeout(2000)
 
-        # Process each property
-        for prop in PROPERTIES:
-            hotel_id = prop["hotel_id"]
-            print(f"\n{'─'*60}")
-            print(f"Property: {prop['name']} ({hotel_id})")
+        if "sign-in" in page.url or "login" in page.url:
+            print("Session expirovala!")
+            send_session_expired_email()
+            await browser.close()
+            return
 
-            try:
-                await _open_property(page, hotel_id)
-            except Exception as exc:
-                await _screenshot(page, f"open_property_error_{hotel_id}")
-                print(f"  Could not open property: {exc}")
-                _send_email(prop, None, None)
-                continue
+        ses = ""
+        if "ses=" in page.url:
+            ses = page.url.split("ses=")[1].split("&")[0]
+        print(f"Prihlaseni OK\n")
 
-            invoice_path = None
-            try:
-                invoice_path = await _download_invoice(page, hotel_id)
-            except Exception as exc:
-                await _screenshot(page, f"invoice_error_{hotel_id}")
-                print(f"  Invoice error: {exc}")
+        for hotel in HOTELS:
+            hid = hotel["id"]
+            print(f"{'='*50}")
+            print(f"{hotel['name']} ({hid})")
 
-            statement_path = None
-            try:
-                statement_path = await _download_statement(page, hotel_id)
-            except Exception as exc:
-                await _screenshot(page, f"statement_error_{hotel_id}")
-                print(f"  Statement error: {exc}")
+            invoice = await get_invoice(page, context, hid, ses)
+
+            if invoice is None:
+                statement = None
+            else:
+                statement = await get_statement(page, hid, ses)
 
             try:
-                _send_email(prop, invoice_path, statement_path)
-            except Exception as exc:
-                print(f"  Email error: {exc}")
+                send_email(hotel, invoice, statement)
+            except Exception as e:
+                print(f"  Chyba emailu: {e}")
+            print()
 
         await browser.close()
-    print("\nDone.")
+
+    print("Hotovo!")
 
 
 if __name__ == "__main__":

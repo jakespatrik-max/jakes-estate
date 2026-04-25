@@ -1,53 +1,38 @@
-name: Booking.com — stahování faktur a výpisů
+name: Booking faktury – 10. den v měsíci
 
 on:
   schedule:
-    # Každý 10. den v měsíci v 08:00 UTC
-    - cron: "0 8 10 * *"
-  workflow_dispatch:   # Spustit ručně z GitHub UI
+    - cron: '0 8 10 * *'
+  workflow_dispatch:
 
 jobs:
   download-and-send:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
-    env:
-      BOOKING_USERNAME:   ${{ secrets.BOOKING_USERNAME }}
-      BOOKING_PASSWORD:   ${{ secrets.BOOKING_PASSWORD }}
-      GMAIL_USER:         ${{ secrets.GMAIL_USER }}
-      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-      PLAYWRIGHT_HEADLESS: "true"
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
-      - name: Install dependencies
+      - name: Nainstaluj zavislosti
         run: |
           pip install -r requirements.txt
-          playwright install chromium --with-deps
+          python -m playwright install chromium --with-deps
 
-      - name: Run automation
+      - name: Spust skript
+        env:
+          BOOKING_COOKIES:    ${{ secrets.BOOKING_COOKIES }}
+          GMAIL_USER:         ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: python booking_automation.py
 
-      - name: Upload screenshots on failure
+      - name: Uloz screenshots pri chybe
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: debug-screenshots
+          name: screenshots
           path: screenshots/
           retention-days: 7
-
-      - name: Upload downloaded PDFs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: booking-pdfs-${{ github.run_id }}
-          path: downloads/
-          retention-days: 30
-          if-no-files-found: warn
