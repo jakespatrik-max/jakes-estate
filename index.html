@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patrik Jakeš · Jakes.Estate · Architekt, Investor, Developer</title>
+  <meta name="description" content="Stabilní nemovitostní portfolio. Jakes.Estate: architektura, investice a development. 150 bytů realizováno, 65 mil. Kč portfolio. Praha, ČR.">
+  <meta property="og:title" content="Patrik Jakeš · Jakes.Estate">
+  <meta property="og:description" content="Architektura, investice a development. 150 bytů realizováno, 65 mil. Kč portfolio.">
+  <meta property="og:image" content="img/hero.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAVIGACE
+═══════════════════════════════════════════════ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__logo">JAKES<span>.</span>ESTATE</a>
+    <nav class="nav__links" aria-label="Hlavní navigace">
+      <a href="#o-mne">O nás</a>
+      <a href="#co-delam">Co děláme</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#pristup">Investiční přístup</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a href="#kontakt" class="btn btn--nav">Domluvit konzultaci</a>
+    <button class="nav__burger" id="burger" aria-label="Otevřít menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav__drawer" id="drawer" aria-hidden="true">
+    <a href="#o-mne"    class="nav__drawer-link">O nás</a>
+    <a href="#co-delam" class="nav__drawer-link">Co děláme</a>
+    <a href="#portfolio" class="nav__drawer-link">Portfolio</a>
+    <a href="#pristup"  class="nav__drawer-link">Investiční přístup</a>
+    <a href="#kontakt"  class="nav__drawer-link">Kontakt</a>
+    <a href="#kontakt" class="btn btn--primary nav__drawer-cta">Domluvit konzultaci</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     HERO — typography-led, no photo
+═══════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <!-- Hero background photo -->
+  <div class="hero__bg" aria-hidden="true"></div>
+  <!-- Dark overlay for text legibility -->
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <!-- Dot-grid texture overlay -->
+  <div class="hero__texture" aria-hidden="true"></div>
+
+  <div class="container hero__body">
+    <p class="hero__eyebrow">Patrik Jakeš &nbsp;·&nbsp; Architekt &amp; Investor &nbsp;·&nbsp; Praha</p>
+
+    <!-- Decorative rule -->
+    <div class="hero__rule" aria-hidden="true"></div>
+
+    <h1 class="hero__headline">
+      Nemovitosti,<br>
+      které mají smysl<br>
+      <em>i za 10 let.</em>
+    </h1>
+
+    <p class="hero__sub">
+      Budujeme stabilní nemovitostní portfolio skrze výběr lokalit, rekonstrukce, správu výnosových nemovitostí a rezidenční development. S důrazem na architekturu, dlouhodobou hodnotu a kontrolu nad projektem.
+    </p>
+
+    <div class="hero__cta-row">
+      <a href="#kontakt" class="btn btn--primary">Domluvit konzultaci</a>
+      <a href="#portfolio" class="btn btn--outline">Zobrazit projekty &nbsp;↓</a>
+    </div>
+  </div>
+
+  <!-- Metrics strip -->
+  <div class="hero__metrics-wrap">
+    <div class="container">
+      <div class="metrics-strip">
+        <div class="metric">
+          <div class="metric__top">
+            <span class="metric__num">+65 mil.</span>
+            <span class="metric__unit">Kč</span>
+          </div>
+          <span class="metric__label">Nárůst portfolia v roce 2025</span>
+        </div>
+        <div class="metric__sep" aria-hidden="true"></div>
+        <div class="metric">
+          <div class="metric__top">
+            <span class="metric__num">24 %</span>
+          </div>
+          <span class="metric__label">Zhodnocení v roce 2025</span>
+        </div>
+        <div class="metric__sep" aria-hidden="true"></div>
+        <div class="metric">
+          <div class="metric__top">
+            <span class="metric__num">70 %</span>
+          </div>
+          <span class="metric__label">Nárůst vybraných nemovitostí</span>
+        </div>
+        <div class="metric__sep" aria-hidden="true"></div>
+        <div class="metric">
+          <div class="metric__top">
+            <span class="metric__num">12 %</span>
+          </div>
+          <span class="metric__label">Výnos krátkodobých pronájmů</span>
+        </div>
+        <div class="metric__sep" aria-hidden="true"></div>
+        <div class="metric">
+          <div class="metric__top">
+            <span class="metric__num">150</span>
+            <span class="metric__unit">bytů</span>
+          </div>
+          <span class="metric__label">dokončených bytů</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     O MNĚ
+═══════════════════════════════════════════════ -->
+<section class="section" id="o-mne">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-photo-col">
+        <div class="about-photo-wrap">
+          <img src="img/portrait.jpeg" alt="Patrik Jakeš" class="about-photo" loading="lazy">
+          <!-- Geometric accent frame -->
+          <div class="about-photo-frame" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="about-text-col">
+        <header class="section-header">
+          <span class="section-num">01</span>
+          <span class="section-label">O nás</span>
+        </header>
+        <h2 class="section-title about-title--brand">JAKES<span class="about-title__dot">.</span>ESTATE</h2>
+
+        <p class="about-lead">
+          Propojujeme architekturu, investice a development. Každý projekt posuzujeme pohledem architekta a investora v jednom, tedy jaký potenciál má nemovitost z pohledu stavebních možností a tedy jakou hodnotu může přinést.
+        </p>
+        <p class="about-body">
+          Budujeme portfolio, které má obstát i v horších tržních podmínkách. Nezakládáme ho na krátkodobé spekulaci, ale na reálně přidané hodnotě: kvalitním návrhu, lepší dispozici, efektivní rekonstrukci a výběru lokalit s dlouhodobou poptávkou.
+        </p>
+        <p class="about-body">
+          Cílem pro rok 2026 je portfolio přesahující 150 milionů korun. Každý projekt musí mít jasnou ekonomiku, právní strukturu, technické řešení a výstupní strategii.
+        </p>
+        <p class="about-body">
+          Rekonstrukce a novostavby realizujeme s vysokou mírou vlastní kontroly. Díky tomu máme přímý dohled nad náklady, kvalitou, harmonogramem i výsledkem.
+        </p>
+
+        <div class="about-tags">
+          <span class="tag">Architektura</span>
+          <span class="tag">Investice</span>
+          <span class="tag">Development</span>
+          <span class="tag">Praha</span>
+          <span class="tag">Jakes.Estate s.r.o.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PULL-QUOTE
+═══════════════════════════════════════════════ -->
+<section class="pullquote-section" aria-label="Citace">
+  <div class="container">
+    <div class="pullquote">
+      <div class="pullquote__mark" aria-hidden="true">&ldquo;</div>
+      <blockquote class="pullquote__text">
+        Dlouhodobá hodnota, ochrana kapitálu a kontrola nad projektem. Výnos má být důsledkem dobře odvedené práce, ne náhodou trhu.
+      </blockquote>
+      <div class="pullquote__sig">
+        <div class="pullquote__sig-line" aria-hidden="true"></div>
+        <div class="pullquote__sig-name">Ing. arch. Ing. Patrik Jakeš, MBA</div>
+        <div class="pullquote__sig-role">Architekt &nbsp;·&nbsp; Investor &nbsp;·&nbsp; Developer &nbsp;·&nbsp; Jakes.Estate s.r.o.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     CO DĚLÁME — 3 pilíře
+═══════════════════════════════════════════════ -->
+<section class="section section--dark" id="co-delam">
+  <div class="container">
+    <header class="section-header section-header--center">
+      <span class="section-num">02</span>
+      <span class="section-label">Co děláme</span>
+    </header>
+    <h2 class="section-title section-title--center">Tři pilíře portfolia</h2>
+
+    <div class="pillars">
+
+      <div class="pillar-card">
+        <div class="pillar-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="20" width="36" height="22" rx="1"/>
+            <path d="M2 22L24 4l22 18"/>
+            <line x1="18" y1="42" x2="18" y2="28"/>
+            <line x1="30" y1="42" x2="30" y2="28"/>
+            <rect x="18" y="28" width="12" height="14"/>
+          </svg>
+        </div>
+        <h3 class="pillar-card__title">Stavební činnost<br>&amp; Development</h3>
+        <p class="pillar-card__text">Rezidenční projekty od záměru přes projektovou přípravu až po realizaci. Díky vlastní stavební kapacitě držíme kontrolu nad procesem, kvalitou i náklady.</p>
+        <div class="pillar-card__accent" aria-hidden="true"></div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="6" width="36" height="36" rx="1"/>
+            <line x1="6" y1="16" x2="42" y2="16"/>
+            <line x1="6" y1="26" x2="42" y2="26"/>
+            <line x1="16" y1="6" x2="16" y2="42"/>
+            <line x1="26" y1="6" x2="26" y2="42"/>
+            <circle cx="36" cy="36" r="4" fill="currentColor" stroke="none" opacity=".4"/>
+          </svg>
+        </div>
+        <h3 class="pillar-card__title">Realitní<br>investice</h3>
+        <p class="pillar-card__text">Akvizice nemovitostí se skrytou přidanou hodnotou, rekonstrukce, optimalizace dispozic a výnosu. Zaměřujeme se na lokality s dlouhodobou poptávkou.</p>
+        <div class="pillar-card__accent" aria-hidden="true"></div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 40V20l16-14 16 14v20H8z"/>
+            <path d="M20 40V28h8v12"/>
+            <circle cx="24" cy="18" r="3"/>
+            <line x1="4" y1="40" x2="44" y2="40"/>
+          </svg>
+        </div>
+        <h3 class="pillar-card__title">Správa<br>&amp; pronájem</h3>
+        <p class="pillar-card__text">Správa portfolia pražských bytů pro dlouhodobé, střednědobé i krátkodobé pronájmy. Součástí strategie jsou také rekreační nemovitosti s výnosovým potenciálem.</p>
+        <div class="pillar-card__accent" aria-hidden="true"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     INVESTIČNÍ PŘÍLEŽITOSTI
+═══════════════════════════════════════════════ -->
+<section class="section" id="investicni-prilezitosti">
+  <div class="container">
+    <header class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-label">Investiční příležitosti</span>
+    </header>
+    <h2 class="section-title">Spolupráce na projektech</h2>
+    <p class="section-desc">
+      Připravujeme rezidenční a výnosové projekty, u kterých může být pro vybrané partnery otevřena možnost participace. Každá spolupráce je nastavena individuálně, s jasnou strukturou, zajištěním, reportingem a předem definovaným výstupem.
+    </p>
+
+    <div class="opp-cards">
+
+      <div class="opp-card">
+        <span class="opp-card__badge">Aktuálně připravujeme</span>
+        <div class="opp-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+            <rect x="4" y="16" width="32" height="20" rx="1"/>
+            <path d="M2 18L20 4l18 14"/>
+            <line x1="14" y1="36" x2="14" y2="24"/>
+            <line x1="26" y1="36" x2="26" y2="24"/>
+          </svg>
+        </div>
+        <h3 class="opp-card__title">Rezidenční development</h3>
+        <p class="opp-card__text">Aktivně připravujeme a realizujeme bytové projekty po celé ČR.</p>
+      </div>
+
+      <div class="opp-card">
+        <span class="opp-card__badge">Aktuálně připravujeme</span>
+        <div class="opp-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+            <rect x="4" y="8" width="32" height="28" rx="1"/>
+            <line x1="4" y1="16" x2="36" y2="16"/>
+            <line x1="4" y1="24" x2="36" y2="24"/>
+            <line x1="14" y1="8" x2="14" y2="36"/>
+          </svg>
+        </div>
+        <h3 class="opp-card__title">Činžovní domy</h3>
+        <p class="opp-card__text">Akvizice a rekonstrukce bytových domů s dlouhodobým potenciálem.</p>
+      </div>
+
+      <div class="opp-card">
+        <span class="opp-card__badge">Aktuálně připravujeme</span>
+        <div class="opp-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M8 36V20L20 8l12 12v16H8z"/>
+            <path d="M16 36v-8h8v8"/>
+            <path d="M4 36h32"/>
+            <path d="M24 14c0 4-4 8-4 8s-4-4-4-8a4 4 0 018 0z"/>
+          </svg>
+        </div>
+        <h3 class="opp-card__title">Rekreační nemovitosti</h3>
+        <p class="opp-card__text">Nemovitosti pro krátkodobé pobyty a rekreaci s vysokou obsazeností.</p>
+      </div>
+
+    </div>
+
+    <div class="opp-bottom">
+      <div class="opp-bottom__col">
+        <ul class="check-list">
+          <li>Pro vybrané partnery nabízíme možnost participace na projektech</li>
+          <li>Individuální struktura a zajištění</li>
+          <li>Transparentní průběh a pravidelný reporting</li>
+        </ul>
+        <a href="#kontakt" class="btn btn--outline">Nezávazně zjistit více</a>
+      </div>
+      <div class="opp-bottom__divider" aria-hidden="true"></div>
+      <div class="opp-bottom__col">
+        <ul class="check-list">
+          <li>Minimální vstup a časový horizont na míru</li>
+          <li>Plná transparentnost průběhu projektu</li>
+          <li>Architektonická a investiční kontrola v jedněch rukou</li>
+          <li>Výstupní strategie dohodnutá předem</li>
+        </ul>
+        <a href="#kontakt" class="btn btn--primary">Domluvit konzultaci</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PORTFOLIO PROJEKTŮ
+═══════════════════════════════════════════════ -->
+<section class="section section--dark" id="portfolio">
+  <div class="container">
+    <header class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-label">Portfolio projektů</span>
+    </header>
+    <h2 class="section-title">Realizované &amp; aktuální projekty</h2>
+    <p class="section-desc">Vybrané realizované a aktuální projekty. Každý projekt má jasný záměr, konkrétní ekonomiku, architektonické řešení a měřitelný výsledek.</p>
+
+    <div class="portfolio-grid">
+
+      <!-- Praha — Dlouhodobý pronájem -->
+      <article class="proj-card">
+        <div class="proj-card__img-wrap">
+          <img src="img/dlouhodbe.png" alt="Portfolio pražských bytů — dlouhodobý pronájem" class="proj-card__img" loading="lazy">
+          <div class="proj-card__img-overlay"></div>
+          <span class="proj-card__status proj-card__status--active">Aktivní</span>
+          <span class="proj-card__type">Dlouhodobý pronájem</span>
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__loc">📍 Praha</div>
+          <h3 class="proj-card__title">Portfolio pražských bytů</h3>
+          <div class="proj-card__metric proj-card__metric--stack">
+            <span class="proj-card__metric-sublbl">Dlouhodobý pronájem</span>
+            <div class="proj-card__metric-row">
+              <span class="proj-card__metric-num">3,4 %</span>
+              <span class="proj-card__metric-lbl">Výnos p.a.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Praha — Krátkodobý pronájem -->
+      <article class="proj-card">
+        <div class="proj-card__img-wrap">
+          <img src="img/airbnb.png" alt="Portfolio pražských bytů — krátkodobý pronájem" class="proj-card__img" loading="lazy">
+          <div class="proj-card__img-overlay"></div>
+          <span class="proj-card__status proj-card__status--active">Aktivní</span>
+          <span class="proj-card__type">Krátkodobý pronájem</span>
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__loc">📍 Praha</div>
+          <h3 class="proj-card__title">Portfolio pražských bytů</h3>
+          <div class="proj-card__metric proj-card__metric--stack">
+            <span class="proj-card__metric-sublbl">Střednědobé a krátkodobé pronájmy</span>
+            <div class="proj-card__metric-row">
+              <span class="proj-card__metric-num">5,9 %</span>
+              <span class="proj-card__metric-lbl">Výnos p.a.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kouřim -->
+      <article class="proj-card">
+        <div class="proj-card__img-wrap">
+          <img src="img/Kouřim.jpg" alt="BD Rezidence Kouřim" class="proj-card__img" loading="lazy">
+          <div class="proj-card__img-overlay"></div>
+          <span class="proj-card__status proj-card__status--inprogress">V realizaci</span>
+          <span class="proj-card__type">Development</span>
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__loc">📍 Kouřim</div>
+          <h3 class="proj-card__title">BD Rezidence Kouřim</h3>
+          <div class="proj-card__metric proj-card__metric--muted">
+            <span class="proj-card__metric-lbl">Developerský projekt</span>
+          </div>
+          <a href="https://rezidencekourim.cz" target="_blank" rel="noopener" class="proj-card__ext">
+            rezidencekourim.cz &nbsp;↗
+          </a>
+        </div>
+      </article>
+
+      <!-- BD u Plzně -->
+      <article class="proj-card">
+        <div class="proj-card__img-wrap">
+          <img src="img/BD u Plzně.png" alt="BD u Plzně" class="proj-card__img" loading="lazy">
+          <div class="proj-card__img-overlay"></div>
+          <span class="proj-card__status proj-card__status--soon">Připravujeme</span>
+          <span class="proj-card__type">Development</span>
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__loc">📍 Plzeň</div>
+          <h3 class="proj-card__title">BD u Plzně</h3>
+          <div class="proj-card__metric proj-card__metric--stack">
+            <span class="proj-card__metric-sublbl">Nájemní bydlení</span>
+            <div class="proj-card__metric-row">
+              <span class="proj-card__metric-lbl">Připravujeme</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Loučná u Litvínova -->
+      <article class="proj-card">
+        <div class="proj-card__img-wrap">
+          <img src="img/Loučná.png" alt="BD Loučná" class="proj-card__img" loading="lazy">
+          <div class="proj-card__img-overlay"></div>
+          <span class="proj-card__status proj-card__status--done">Dokončeno</span>
+          <span class="proj-card__type">Rekonstrukce</span>
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__loc">📍 Loučná u Litvínova</div>
+          <h3 class="proj-card__title">BD Loučná</h3>
+          <div class="proj-card__metric proj-card__metric--stack">
+            <span class="proj-card__metric-sublbl">Nájemní bydlení</span>
+            <div class="proj-card__metric-row">
+              <span class="proj-card__metric-num">61 %</span>
+              <span class="proj-card__metric-lbl">Růst za 1 rok od nákupu</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Krkonoše — Chalet Leo -->
+      <article class="proj-card">
+        <div class="proj-card__img-wrap">
+          <img src="img/Chalet leo.png" alt="Chalet Leo Krkonoše" class="proj-card__img" loading="lazy">
+          <div class="proj-card__img-overlay"></div>
+          <span class="proj-card__status proj-card__status--soon">Připravujeme</span>
+          <span class="proj-card__type">Rekreační nemovitost</span>
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__loc">📍 Krkonoše</div>
+          <h3 class="proj-card__title">Chalet Leo</h3>
+          <div class="proj-card__metric proj-card__metric--muted">
+            <span class="proj-card__metric-lbl">Připravujeme</span>
+          </div>
+          <a href="https://chaletleo.cz" target="_blank" rel="noopener" class="proj-card__ext">
+            chaletleo.cz &nbsp;↗
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     DOKONČENÉ DEVELOPERSKÉ PROJEKTY
+═══════════════════════════════════════════════ -->
+<section class="section completed" id="dokoncene">
+  <div class="container">
+    <header class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-label">Dokončené developerské projekty</span>
+    </header>
+    <h2 class="section-title">Dokončené developerské projekty</h2>
+
+    <!-- Hero metric -->
+    <div class="completed-hero">
+      <div class="completed-hero__bg-num" aria-hidden="true">150</div>
+      <div class="completed-hero__content">
+        <span class="completed-hero__num">150</span>
+        <span class="completed-hero__unit">bytů</span>
+        <span class="completed-hero__label">realizováno napříč&nbsp;6&nbsp;projekty</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Horizontal scroll gallery -->
+  <div class="completed-scroll-outer">
+    <div class="completed-scroll" role="list">
+
+      <!-- Strakosch II. — 2025 -->
+      <article class="comp-card" role="listitem">
+        <div class="comp-card__img-wrap">
+          <img src="img/kutnahora-po.png" alt="Strakosch II. Kutná Hora" class="comp-card__img" loading="lazy">
+          <div class="comp-card__img-overlay"></div>
+        </div>
+        <div class="comp-card__body">
+          <div class="comp-card__units">47</div>
+          <div class="comp-card__units-lbl">bytů</div>
+          <h3 class="comp-card__title">Strakosch II.</h3>
+          <div class="comp-card__meta">Kutná Hora &nbsp;·&nbsp; 2025</div>
+          <p class="comp-card__role">Development management — akvizice, arch. návrh, inženýring, rekonstrukce.</p>
+        </div>
+      </article>
+
+      <!-- Gemini Kolín — 2024 -->
+      <article class="comp-card" role="listitem">
+        <div class="comp-card__img-wrap">
+          <img src="img/kolin-po.png" alt="Gemini Kolín" class="comp-card__img" loading="lazy">
+          <div class="comp-card__img-overlay"></div>
+        </div>
+        <div class="comp-card__body">
+          <div class="comp-card__units">34</div>
+          <div class="comp-card__units-lbl">bytů</div>
+          <h3 class="comp-card__title">Gemini Kolín</h3>
+          <div class="comp-card__meta">Kolín &nbsp;·&nbsp; 2024</div>
+          <p class="comp-card__role">Kompletní development management od A do Z — akvizice, arch. návrh, inženýring, stavba, prodej.</p>
+        </div>
+      </article>
+
+      <!-- Masarykova — 2024 -->
+      <article class="comp-card" role="listitem">
+        <div class="comp-card__img-wrap">
+          <img src="img/Rezidence Masarykova.png" alt="Rezidence Masarykova Humpolec" class="comp-card__img" loading="lazy">
+          <div class="comp-card__img-overlay"></div>
+        </div>
+        <div class="comp-card__body">
+          <div class="comp-card__units">23</div>
+          <div class="comp-card__units-lbl">bytů</div>
+          <h3 class="comp-card__title">Masarykova</h3>
+          <div class="comp-card__meta">Humpolec &nbsp;·&nbsp; 2024</div>
+          <p class="comp-card__role">Akvizice, architektonický návrh, inženýring, prodej.</p>
+        </div>
+      </article>
+
+      <!-- Jenčova vila — 2024 -->
+      <article class="comp-card" role="listitem">
+        <div class="comp-card__img-wrap">
+          <img src="img/Vila jenc.png" alt="Jenčova vila Humpolec" class="comp-card__img" loading="lazy">
+          <div class="comp-card__img-overlay"></div>
+        </div>
+        <div class="comp-card__body">
+          <div class="comp-card__units">6</div>
+          <div class="comp-card__units-lbl">bytů</div>
+          <h3 class="comp-card__title">Jenčova vila</h3>
+          <div class="comp-card__meta">Humpolec &nbsp;·&nbsp; 2024</div>
+          <p class="comp-card__role">Akvizice, architektonický návrh, inženýring, prodej.</p>
+        </div>
+      </article>
+
+      <!-- Strakosch I. — 2023 -->
+      <article class="comp-card" role="listitem">
+        <div class="comp-card__img-wrap">
+          <img src="img/Strakoschova vila - after.png" alt="Strakosch I. Kutná Hora" class="comp-card__img" loading="lazy">
+          <div class="comp-card__img-overlay"></div>
+        </div>
+        <div class="comp-card__body">
+          <div class="comp-card__units">19</div>
+          <div class="comp-card__units-lbl">bytů</div>
+          <h3 class="comp-card__title">Strakosch I.</h3>
+          <div class="comp-card__meta">Kutná Hora &nbsp;·&nbsp; 2023</div>
+          <p class="comp-card__role">Kompletní development management od A do Z — akvizice, arch. návrh, inženýring, stavba, prodej.</p>
+        </div>
+      </article>
+
+      <!-- Panorama — 2023 -->
+      <article class="comp-card" role="listitem">
+        <div class="comp-card__img-wrap">
+          <img src="img/panorama.png" alt="Panorama Havlíčkův Brod" class="comp-card__img" loading="lazy">
+          <div class="comp-card__img-overlay"></div>
+        </div>
+        <div class="comp-card__body">
+          <div class="comp-card__units">21</div>
+          <div class="comp-card__units-lbl">bytů</div>
+          <h3 class="comp-card__title">Panorama</h3>
+          <div class="comp-card__meta">Havlíčkův Brod &nbsp;·&nbsp; 2023</div>
+          <p class="comp-card__role">Akvizice, architektonický návrh, inženýring, prodej.</p>
+        </div>
+      </article>
+
+    </div>
+    <!-- Scroll hint -->
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Posouvat</span>
+      <svg width="24" height="10" viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     INVESTIČNÍ PŘÍSTUP / FILOZOFIE
+═══════════════════════════════════════════════ -->
+<section class="section section--dark" id="pristup">
+  <div class="container">
+    <header class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-label">Filozofie</span>
+    </header>
+    <h2 class="section-title">Jak přemýšlíme o&nbsp;investování</h2>
+    <p class="section-desc">Výnos vnímáme jako důsledek kvalitní akvizice, dobrého návrhu, kontroly nákladů a správně nastavené výstupní strategie. Ne jako výsledek slepé spekulace s trhem.</p>
+
+    <div class="philosophy-grid">
+
+      <div class="phil-item">
+        <div class="phil-item__num" aria-hidden="true">I</div>
+        <div class="phil-item__icon" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="18" cy="14" r="8"/>
+            <path d="M18 22v12M10 30h16"/>
+          </svg>
+        </div>
+        <h3 class="phil-item__title">Výběr lokality</h3>
+        <p class="phil-item__text">Zaměřujeme se na oblasti s prokazatelnou poptávkou a strukturálním růstem. Ne intuice — analýza dat, demografické trendy, dopravní dostupnost.</p>
+      </div>
+
+      <div class="phil-item">
+        <div class="phil-item__num" aria-hidden="true">II</div>
+        <div class="phil-item__icon" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.4">
+            <rect x="4" y="4" width="28" height="28" rx="1"/>
+            <path d="M4 14h28M14 4v28"/>
+            <rect x="14" y="14" width="18" height="18" fill="currentColor" fill-opacity=".08"/>
+          </svg>
+        </div>
+        <h3 class="phil-item__title">Rekonstrukce<br>s přidanou hodnotou</h3>
+        <p class="phil-item__text">Architektonický přístup k přestavbě generuje výrazně vyšší zhodnocení než standardní renovace. Optimalizace dispozic, materiálů a prostoru.</p>
+      </div>
+
+      <div class="phil-item">
+        <div class="phil-item__num" aria-hidden="true">III</div>
+        <div class="phil-item__icon" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M4 32V14L18 2l14 12v18H4z"/>
+            <path d="M13 32v-9h10v9"/>
+          </svg>
+        </div>
+        <h3 class="phil-item__title">Rezidenční<br>development</h3>
+        <p class="phil-item__text">Komplexní projekty od záměru po kolaudaci. Architektonická i investorská kontrola v jedněch rukou eliminuje klíčová rizika.</p>
+      </div>
+
+      <div class="phil-item">
+        <div class="phil-item__num" aria-hidden="true">IV</div>
+        <div class="phil-item__icon" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M18 4l3.5 7 7.5 1-5.5 5.5 1.5 7.5L18 22l-7 3.5 1.5-7.5L7 12.5l7.5-1z"/>
+            <circle cx="18" cy="28" r="4"/>
+          </svg>
+        </div>
+        <h3 class="phil-item__title">Ochrana<br>kapitálu</h3>
+        <p class="phil-item__text">Priorita není maximální výnos, ale udržitelný výnos s ochranou vloženého kapitálu. Konzervativní ocenění, jasné výstupní strategie.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PROCES SPOLUPRÁCE
+═══════════════════════════════════════════════ -->
+<section class="section" id="proces">
+  <div class="container">
+    <header class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-label">Proces</span>
+    </header>
+    <h2 class="section-title">Jak spolupráce vypadá</h2>
+    <p class="section-desc">Spolupráce má mít jasnou strukturu. Od prvního hovoru přes konkrétní projekt až po pravidelný reporting.</p>
+
+    <div class="process-steps">
+
+      <div class="process-step">
+        <div class="process-step__connector" aria-hidden="true"></div>
+        <div class="process-step__num" aria-hidden="true">01</div>
+        <div class="process-step__content">
+          <h3 class="process-step__title">Úvodní konzultace</h3>
+          <p class="process-step__text">30 minut. Ujasníme si objem, časový horizont, očekávání a vhodný typ spolupráce.</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-step__connector" aria-hidden="true"></div>
+        <div class="process-step__num" aria-hidden="true">02</div>
+        <div class="process-step__content">
+          <h3 class="process-step__title">Konkrétní projekt</h3>
+          <p class="process-step__text">Představíme aktuální nebo připravovanou příležitost včetně základní ekonomiky, rizik a výstupní strategie.</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-step__connector" aria-hidden="true"></div>
+        <div class="process-step__num" aria-hidden="true">03</div>
+        <div class="process-step__content">
+          <h3 class="process-step__title">Individuální struktura</h3>
+          <p class="process-step__text">Nastavíme podmínky, zajištění, časový rámec a způsob výstupu podle konkrétního projektu.</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-step__num" aria-hidden="true">04</div>
+        <div class="process-step__content">
+          <h3 class="process-step__title">Průběžný reporting</h3>
+          <p class="process-step__text">Pravidelné informace o stavu projektu, harmonogramu a klíčových milnících.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     V MÉDIÍCH
+═══════════════════════════════════════════════ -->
+<section class="section section--dark media-section" id="media">
+  <div class="container">
+    <header class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-label">V médiích</span>
+    </header>
+    <h2 class="section-title">V médiích</h2>
+
+    <div class="media-cards">
+
+      <a href="https://www.aktualne.cz/jakes-development-bratrska-sila-ktera-pomaha-rozpohybovat-tr/r~15f364e842c911ec9106ac1f6b220ee8/?lp=1"
+         target="_blank" rel="noopener" class="media-card">
+        <div class="media-card__source">Aktuálně.cz</div>
+        <blockquote class="media-card__headline">
+          „Jakeš Development: Bratrská síla, která pomáhá rozpohybovat trh bydlení"
+        </blockquote>
+        <div class="media-card__footer">
+          <span class="media-card__date">Listopad 2021</span>
+          <span class="media-card__arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="https://kolinsky.denik.cz/zpravy_region/z-ruiny-s-vymlacenymi-okny-a-byty-bez-koupelen-by-melo-vzniknout-luxusni-bydleni.html"
+         target="_blank" rel="noopener" class="media-card">
+        <div class="media-card__source">Kolínský deník</div>
+        <blockquote class="media-card__headline">
+          „Z ruiny s vymlácenými okny a byty bez koupelen by mělo vzniknout luxusní bydlení"
+        </blockquote>
+        <div class="media-card__footer">
+          <span class="media-card__date">Únor 2022</span>
+          <span class="media-card__arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="https://kutnohorsky.denik.cz/zpravy_region/byvaly-dum-obuvnika-strakosche-v-kutne-hore-se-meni-v-luxusni-bydleni-20220314.html"
+         target="_blank" rel="noopener" class="media-card">
+        <div class="media-card__source">Kutnohorský deník</div>
+        <blockquote class="media-card__headline">
+          „Bývalý dům obuvníka Strakosche v Kutné Hoře se mění v luxusní bydlení"
+        </blockquote>
+        <div class="media-card__footer">
+          <span class="media-card__date">Březen 2022</span>
+          <span class="media-card__arrow">↗</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     KONTAKT
+═══════════════════════════════════════════════ -->
+<section class="section contact-section" id="kontakt">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="contact-left">
+        <header class="section-header">
+          <span class="section-num">09</span>
+          <span class="section-label">Kontakt</span>
+        </header>
+        <h2 class="section-title">Pojďme se bavit<br>o konkrétní investici.</h2>
+        <p class="contact-lead">Každá spolupráce je individuální. Nejde o anonymní produkt, ale o konkrétní projekt, konkrétní strukturu a konkrétní výstup.</p>
+        <ul class="check-list check-list--light">
+          <li>Minimální vstup a časový horizont na míru</li>
+          <li>Plná transparentnost průběhu projektu</li>
+          <li>Architektonická a investiční kontrola v jedněch rukou</li>
+          <li>Výstupní strategie dohodnutá předem</li>
+        </ul>
+      </div>
+
+      <div class="contact-right">
+        <form class="contact-form" action="mailto:info@jakes.estate" method="get" enctype="text/plain">
+          <div class="form-group">
+            <label class="form-label" for="f-name">Jméno</label>
+            <input class="form-input" type="text" id="f-name" name="name" placeholder="Vaše jméno" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-contact">E-mail nebo telefon</label>
+            <input class="form-input" type="text" id="f-contact" name="contact" placeholder="jak vás kontaktovat" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-msg">Co vás zajímá?</label>
+            <textarea class="form-input form-textarea" id="f-msg" name="body" rows="5"
+              placeholder="Objem investice, časový horizont, typ projektu..."></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">Odeslat zprávu &nbsp;→</button>
+          <p class="form-note">Ozveme se zpravidla do 24 hodin.</p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">JAKES<span>.</span>ESTATE</div>
+        <p class="footer-tagline">Stabilní nemovitostní portfolio.<br>Praha &nbsp;·&nbsp; Architektura &nbsp;·&nbsp; Investice &nbsp;·&nbsp; Development.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col__heading">Navigace</h4>
+        <ul class="footer-col__list">
+          <li><a href="#o-mne">O nás</a></li>
+          <li><a href="#co-delam">Co děláme</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#pristup">Investiční přístup</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col__heading">Kontakt</h4>
+        <ul class="footer-col__list">
+          <li>Praha, Česká republika</li>
+          <li>Jakes.Estate s.r.o.</li>
+          <li>Dobrovského 873/30</li>
+          <li>170 00 Praha 7</li>
+          <li>IČ: 21411735</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Patrik Jakeš · Jakes.Estate s.r.o.</span>
+      <div class="footer-legal">
+        <a href="#">Cookies</a>
+        <a href="#">Ochrana osobních údajů</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script>
+  /* ── Nav: scroll shadow + burger ── */
+  const nav    = document.getElementById('nav');
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('nav--scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  burger.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    drawer.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('menu-open', !open);
+  });
+
+  // Close drawer on link click
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('menu-open');
+    });
+  });
+
+  /* ── Smooth scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({ top: target.offsetTop - 68, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── Scroll hint fade ── */
+  const scrollHint = document.querySelector('.scroll-hint');
+  if (scrollHint) {
+    const scroller = document.querySelector('.completed-scroll');
+    scroller?.addEventListener('scroll', () => {
+      scrollHint.style.opacity = scroller.scrollLeft > 40 ? '0' : '1';
+    }, { passive: true });
+  }
+
+  /* ── Intersection observer: fade-in sections ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.section, .comp-card, .proj-card, .pillar-card, .phil-item, .process-step')
+    .forEach(el => { el.classList.add('fade-in'); io.observe(el); });
+</script>
+
+</body>
+</html>
