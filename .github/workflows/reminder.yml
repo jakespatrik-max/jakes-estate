@@ -1,0 +1,61 @@
+name: Reminder – PC vypnuty
+
+on:
+  schedule:
+    - cron: '0 10 12 * *'   # 12. kazdy mesic v 10:00 UTC
+  workflow_dispatch:
+
+jobs:
+  check-and-remind:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Zkontroluj jestli booking job probeh a posli reminder
+        env:
+          GMAIL_USER:         ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 -c "
+          import urllib.request, json, smtplib, os
+          from email.mime.text import MIMEText
+          from datetime import datetime, timezone
+
+          token = os.environ['GITHUB_TOKEN']
+          repo = 'jakespatrik-max/booking-invoice-automation'
+
+          req = urllib.request.Request(
+              f'https://api.github.com/repos/{repo}/actions/runs?per_page=10',
+              headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github+json'}
+          )
+          with urllib.request.urlopen(req) as r:
+              runs = json.loads(r.read())['workflow_runs']
+
+          now = datetime.now(timezone.utc)
+          booking_ran = any(
+              r['name'] == 'Booking faktury \u2013 10. den v m\u011bs\u00edci'
+              and r['conclusion'] == 'success'
+              and (now - datetime.fromisoformat(r['updated_at'].replace('Z','+00:00'))).days < 5
+              for r in runs
+          )
+
+          if not booking_ran:
+              msg = MIMEText(
+                  'Dobry den,\n\n'
+                  'Automaticky skript pro stazeni faktur z Booking.com neprobehl.\n'
+                  'Pravdepodobne byl vas PC 10. tohoto mesice vypnuty.\n\n'
+                  'Prosim zapnete PC a spuste SPUSTIT_BOOKING.bat\n'
+                  'nebo pockejte az se PC zapne a runner se spusti sam.\n\n'
+                  '-- Automaticka zprava',
+                  'plain'
+              )
+              msg['Subject'] = 'Booking.com – faktury nestazeny, zapnete PC'
+              msg['From'] = os.environ['GMAIL_USER']
+              msg['To'] = 'jakes.patrik@gmail.com'
+              with smtplib.SMTP_SSL('smtp.gmail.com', 465) as s:
+                  s.login(os.environ['GMAIL_USER'], os.environ['GMAIL_APP_PASSWORD'])
+                  s.send_message(msg)
+              print('Reminder odeslan!')
+          else:
+              print('Booking job probehl OK, zadny reminder.')
+          "
