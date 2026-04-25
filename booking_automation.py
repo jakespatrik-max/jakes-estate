@@ -193,8 +193,8 @@ def _send_email(prop: dict, invoice: Path | None, statement: Path | None):
     if invoice is None and statement is None:
         body = (
             f"Dobrý den,\n\n"
-            f"Invoice na Booking.com za {PREV_MONTH_LABEL} pro ubytování "
-            f"„{prop['name']}" (ID {prop['hotel_id']}) není k dispozici.\n\n"
+            f"Invoice na Booking.com za {PREV_MONTH_LABEL} pro ubytovani "
+            f"'{prop['name']}' (ID {prop['hotel_id']}) neni k dispozici.\n\n"
             f"Rezervační výpis rovněž nebyl nalezen.\n\n"
             f"— Automatická zpráva"
         )
@@ -203,7 +203,7 @@ def _send_email(prop: dict, invoice: Path | None, statement: Path | None):
         lines = [
             f"Dobrý den,\n",
             f"V příloze naleznete dokumenty za {PREV_MONTH_LABEL} "
-            f"pro „{prop['name']}" (ID {prop['hotel_id']}):\n",
+            f"pro '{prop['name']}' (ID {prop['hotel_id']}):\n",
         ]
         if invoice:
             lines.append(f"  • Invoice: {invoice.name}")
