@@ -729,12 +729,12 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 }
 
 .opp-card {
-  background: var(--bg-dark);
-  border: 1px solid rgba(196,154,90,.25);
+  background: #C49A5A;
+  border: none;
   border-radius: var(--radius-lg);
   padding: 36px 32px;
-  box-shadow: 0 4px 24px rgba(0,0,0,.18);
-  transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s;
+  box-shadow: 0 4px 20px rgba(196,154,90,.25);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
   position: relative;
   overflow: hidden;
 }
@@ -742,8 +742,8 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+  height: 3px;
+  background: var(--bg-dark);
 }
 .opp-card::after {
   content: '';
@@ -751,13 +751,12 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   bottom: -60px; right: -60px;
   width: 160px; height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(196,154,90,.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0,0,0,.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .opp-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(0,0,0,.28), 0 0 0 1px rgba(196,154,90,.4);
-  border-color: rgba(196,154,90,.5);
+  box-shadow: 0 12px 36px rgba(196,154,90,.35);
 }
 
 .opp-card__badge {
@@ -782,15 +781,18 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 .opp-card__title {
   font-size: 19px; font-weight: 700;
   letter-spacing: -.02em;
-  margin-bottom: 10px; color: #fff;
+  margin-bottom: 10px; color: var(--bg-dark);
 }
 .opp-card__text {
-  font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.7;
+  font-size: 14px; color: rgba(10,10,8,.65); line-height: 1.7;
 }
 .opp-card__badge {
-  border-color: rgba(196,154,90,.5) !important;
-  color: var(--accent) !important;
-  background: rgba(196,154,90,.1) !important;
+  border-color: rgba(10,10,8,.25) !important;
+  color: var(--bg-dark) !important;
+  background: rgba(10,10,8,.08) !important;
+}
+.opp-card__icon {
+  color: var(--bg-dark) !important;
 }
 
 /* Bottom two columns */
