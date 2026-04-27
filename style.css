@@ -731,14 +731,26 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 .opp-card {
   background: var(--bg-card);
   border: 1.5px solid var(--border);
+  border-left: 4px solid var(--accent);
   border-radius: var(--radius-lg);
   padding: 36px 32px;
+  box-shadow: 0 2px 12px rgba(196,154,90,.10);
   transition: border-color .25s, transform .25s var(--ease), box-shadow .25s var(--ease);
+  position: relative;
+}
+.opp-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(196,154,90,.06) 0%, transparent 60%);
+  pointer-events: none;
 }
 .opp-card:hover {
   border-color: var(--accent);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  border-left-color: var(--accent);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(196,154,90,.18);
 }
 
 .opp-card__badge {
@@ -755,7 +767,7 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 
 .opp-card__icon {
   width: 40px; height: 40px;
-  color: var(--text-muted);
+  color: var(--accent);
   margin-bottom: 18px;
 }
 .opp-card__icon svg { width: 100%; height: 100%; }
