@@ -730,11 +730,11 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 
 .opp-card {
   background: #C49A5A;
-  border: none;
+  border: 1.5px solid rgba(0,0,0,.12);
   border-radius: var(--radius-lg);
   padding: 36px 32px;
-  box-shadow: 0 4px 20px rgba(196,154,90,.25);
-  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  box-shadow: 0 2px 12px rgba(196,154,90,.20);
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease);
   position: relative;
   overflow: hidden;
 }
@@ -744,19 +744,15 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   top: 0; left: 0; right: 0;
   height: 3px;
   background: var(--bg-dark);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s var(--ease);
 }
-.opp-card::after {
-  content: '';
-  position: absolute;
-  bottom: -60px; right: -60px;
-  width: 160px; height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,0,0,.08) 0%, transparent 70%);
-  pointer-events: none;
-}
+.opp-card:hover::before { transform: scaleX(1); }
 .opp-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 36px rgba(196,154,90,.35);
+  border-color: rgba(0,0,0,.35);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(156,120,60,.35);
 }
 
 .opp-card__badge {
