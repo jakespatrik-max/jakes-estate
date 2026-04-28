@@ -278,14 +278,19 @@ body::before {
   display: block;
   transition: opacity .35s;
 }
+/* Desktop: skryj černé a monogram */
 .nav__logo-img--black { display: none; }
+.nav__logo-img--mono  { display: none; }
+
+/* Desktop scrolled: ukaž černé, skryj bílé */
 .nav--scrolled .nav__logo-img--white { display: none; }
 .nav--scrolled .nav__logo-img--black { display: block; }
 
-/* Mobile — always dark nav */
+/* Mobil: vždy monogram (čtvercový, vhodný pro malé obrazovky) */
 @media (max-width: 768px) {
-  .nav__logo-img--white { display: none; }
-  .nav__logo-img--black { display: block; }
+  .nav__logo-img--white,
+  .nav__logo-img--black { display: none !important; }
+  .nav__logo-img--mono  { display: block !important; height: 34px; width: auto; }
 }
 
 .nav__logo {
@@ -554,7 +559,13 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   pointer-events: none;
 }
 
-.about-logo-img { height: clamp(28px, 5vw, 44px); width: auto; margin-bottom: 24px; display: block; }
+.about-logo-img {
+  width: clamp(180px, 50%, 320px);
+  height: auto;
+  max-width: 100%;
+  margin-bottom: 24px;
+  display: block;
+}
 
 /* O nás — velké logo + jméno */
 .about-title--brand {
@@ -1360,7 +1371,7 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   letter-spacing: .04em; color: #fff; margin-bottom: 14px;
 }
 .footer-logo span { color: var(--accent); }
-.footer-logo-img { height: 20px; width: auto; margin-bottom: 14px; }
+.footer-logo-img { width: 160px; height: auto; max-width: 100%; margin-bottom: 14px; display: block; }
 
 .footer-tagline {
   font-size: 13px; line-height: 1.75;
