@@ -271,6 +271,23 @@ body::before {
   gap: 48px;
 }
 
+/* Logo img switcher */
+.nav__logo-img {
+  height: 22px;
+  width: auto;
+  display: block;
+  transition: opacity .35s;
+}
+.nav__logo-img--black { display: none; }
+.nav--scrolled .nav__logo-img--white { display: none; }
+.nav--scrolled .nav__logo-img--black { display: block; }
+
+/* Mobile — always dark nav */
+@media (max-width: 768px) {
+  .nav__logo-img--white { display: none; }
+  .nav__logo-img--black { display: block; }
+}
+
 .nav__logo {
   font-family: var(--font-body);
   font-size: 16px;
