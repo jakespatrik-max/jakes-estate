@@ -1439,6 +1439,11 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
 
   .pillars { gap: 16px; }
   .opp-cards { grid-template-columns: 1fr; }
+  .opp-card {
+    background: #C49A5A;
+    padding: 28px 24px;
+  }
+  .opp-card::before { transform: scaleX(1); } /* lišta trvale viditelná – hover na mobilu nefunguje */
   .portfolio-grid { grid-template-columns: 1fr; }
 
   .completed-scroll { padding: 0 20px 24px; gap: 16px; }
