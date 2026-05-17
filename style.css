@@ -1418,7 +1418,11 @@ body.menu-open .nav__burger span:nth-child(3) { transform: translateY(-7.5px) ro
   .nav__logo { color: var(--text); }
   .nav__burger span { background: var(--text); }
 
-  .hero__body { padding: 52px 24px 48px; }
+  .hero__body { padding: 52px 28px 48px; }
+  .hero__headline { font-size: 36px; letter-spacing: -.03em; margin-bottom: 20px; }
+  .hero__sub { font-size: 15px; margin-bottom: 36px; }
+  .hero__eyebrow { margin-bottom: 20px; }
+  .hero__rule { margin-bottom: 24px; }
   .hero__cta-row { flex-direction: column; }
   .hero__cta-row .btn { width: 100%; justify-content: center; }
 
